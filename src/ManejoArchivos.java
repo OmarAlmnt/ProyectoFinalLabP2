@@ -1,7 +1,11 @@
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /*
@@ -26,9 +30,22 @@ public class ManejoArchivos {
     }
     public void RegistrarUsuario(String usuario,String password, String nombres, String apellidos,String correo, int nivelacceso) throws IOException{
        CrearArchivoUsuarios();
-       FileWriter fw = new FileWriter(new File("usuarios.txt")); 
-       fw.write(usuario+";"+password+";"+nombres+";"+apellidos+";"+correo+";"+nivelacceso);
-       fw.close();
+       File f = new File("usuarios.txt");
+       BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f,true), "utf-8")); 
+       Scanner sc = new Scanner(f);
+       int codigo = 0;
+       while(sc.hasNextLine()){
+           String linea = sc.nextLine();
+           Scanner sl = new Scanner(linea);
+           sl.useDelimiter("\\s*;\\s*");
+
+           codigo = Integer.parseInt(sl.next());
+
+       }
+       writer.write((codigo+1)+";"+usuario+";"+password+";"+nombres+";"+apellidos+";"+correo+";"+nivelacceso);
+       writer.newLine();
+  
+       writer.close();
     }
     
 }
